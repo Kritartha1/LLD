@@ -48,14 +48,12 @@ public class Main {
             }
             else if(parts[0].equals("addSnake")){
                 if(isGameOn(gc)){
-                    gc.addBoardEntity("SNAKE", Integer.parseInt(parts[1]), Integer.parseInt(parts[2]));
-                    System.out.println("Snake added");
+                    System.out.println(gc.addBoardEntity(BoardEntityType.SNAKE, Integer.parseInt(parts[1]), Integer.parseInt(parts[2])));
                 }
             }
             else if(parts[0].equals("addLadder")){
                 if(isGameOn(gc)){
-                    gc.addBoardEntity("LADDER", Integer.parseInt(parts[1]), Integer.parseInt(parts[2]));
-                    System.out.println("Ladder added");
+                    System.out.println(gc.addBoardEntity(BoardEntityType.LADDER, Integer.parseInt(parts[1]), Integer.parseInt(parts[2])));
                 }
             }
             else{

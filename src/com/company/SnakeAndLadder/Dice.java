@@ -1,13 +1,6 @@
 package com.company.SnakeAndLadder;
 
-public class Dice {
-    int sides;
+public interface  Dice {
 
-    Dice(int sides){
-        this.sides = sides;
-    }
-
-    public int roll(){
-        return (int) (Math.random() * sides) + 1;
-    }
+    int roll();
 }

@@ -6,10 +6,10 @@ public class BoardEntity {
     private int end;
     private BoardEntityType type;
 
-    BoardEntity(int start, int end, String type){
+    BoardEntity(int start, int end, BoardEntityType type){
         this.start = start;
         this.end = end;
-        this.type = BoardEntityType.valueOf(type);
+        this.type = type;
     }
 
     public int step(){
@@ -19,6 +19,8 @@ public class BoardEntity {
     public BoardEntityType getType(){
         return this.type;
     }
+
+
 
 
 }

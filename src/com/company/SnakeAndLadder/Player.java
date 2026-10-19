@@ -20,8 +20,8 @@ public class Player {
         return this.currPos;
     }
 
-    public int setCurrPos(int position){
-        return this.currPos = position;
+    public void setCurrPos(int position){
+        this.currPos = position;
     }
 
     public String getName(){

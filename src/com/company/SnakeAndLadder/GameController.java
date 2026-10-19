@@ -1,5 +1,6 @@
 package com.company.SnakeAndLadder;
 
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Queue;
@@ -8,7 +9,7 @@ public class GameController {
 
     private Board board;
     private Queue<Player> players;
-    public Queue<Player> leaderBoard;
+    private Queue<Player> leaderBoard;
     private Dice dice;
     private boolean started;
     private boolean ended;
@@ -16,7 +17,7 @@ public class GameController {
     GameController(Board board){
         this.board = board;
         this.players = new LinkedList<>();
-        this.dice = new Dice(6);
+        this.dice = new RegularDice(6);
         this.leaderBoard = new LinkedList<>();
         this.started = false;
     }
@@ -30,7 +31,7 @@ public class GameController {
     }
 
     public void addPlayer(Player player){
-        if(this.ended){
+        if(this.started){
             System.out.println("Game already started. Please create a new game");
             return;
         }
@@ -50,11 +51,18 @@ public class GameController {
 
     public void startGame(){
 
+
         if(this.ended){
             System.out.println();
             System.out.println("Creating a new game");
             resetBoard();
         }
+
+        if(players.size()<=1){
+            System.out.println("Please add some players to start the game");
+            return;
+        }
+
 
         this.started = true;
 
@@ -62,30 +70,28 @@ public class GameController {
             play();
         }
 
+        this.started = false;
+
 
     }
 
-    public void addBoardEntity(String entity, int start, int end){
+    public String addBoardEntity(BoardEntityType entity, int start, int end){
         System.out.println();
         if(this.board==null){
-            System.out.println("Board not yet created");
-            return;
-        }
-        if(this.board.getSize()<start || this.board.getSize()<end || start<1 || end<1){
-            System.out.println("Invalid placement position. Add a new position");
-            return;
+            return "Board not yet created";
         }
 
         if(this.board.addEntity(entity, start, end)){
-            System.out.println("Placed a"+entity+" at position: "+start+ " , tail: "+end);
+            return "Placed a"+entity+" at position: "+start+ " , tail: "+end;
         }else{
-            System.out.println("There is already an obstacle/helper at position:"+start);
+            return "Invalid object placement at position:"+start;
         }
 
     }
 
 
     private void play(){
+
         System.out.println();
 
         if(this.ended){
@@ -93,6 +99,11 @@ public class GameController {
             System.out.println("Please create a new game...");
             return;
         }
+        /////////////////////////////////////////////
+
+        //ended can be true if we apply a different strategy
+
+        // will add strategy here for win condition.
 
         if(players.size() == 1){
             this.leaderBoard.add(players.poll());
@@ -102,6 +113,8 @@ public class GameController {
             showLeaderBoard();
             return;
         }
+
+        /////////////////////////////////////////////
 
         Player curr = this.players.poll();
         System.out.println("Player: "+ curr.getId()+ " ,Name: "+curr.getName() + " rolled the dice");

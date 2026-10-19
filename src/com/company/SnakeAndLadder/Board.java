@@ -13,25 +13,32 @@ public class Board {
         this.entities = new BoardEntity[size+1];
     }
 
-
     public int findNextPosition(int currPos, int dice){
+        return findNextPosition(currPos, dice, new boolean[size+1]);
+    }
+
+
+    public int findNextPosition(int currPos, int dice, boolean[] vis){
         if(currPos + dice > size ){
             return currPos;
         }
 
-        if(entities[currPos+dice]!=null){
-            return entities[currPos+dice].step();
+        if(entities[currPos+dice]!=null && !vis[currPos+dice]){
+            vis[currPos+dice] = true;
+            return findNextPosition(entities[currPos+dice].step(), 0, vis);
         }
 
         return currPos+dice;
     }
 
-    public boolean addEntity(String entity_type, int start, int end){
-        if(this.entities[start]!=null){
-            return false;
+    public boolean addEntity(BoardEntityType entity_type, int start, int end){
+
+        if(entity_type.isValid(start, end, size) && this.entities[start]==null){
+            this.entities[start] = new BoardEntity(start, end, entity_type);
+            return true;
         }
-        this.entities[start] = new BoardEntity(start, end, entity_type);
-        return true;
+        return false;
+
     }
 
     public boolean isEnd(int currPos){
@@ -41,4 +48,5 @@ public class Board {
     public int getSize(){
         return this.size;
     }
+
 }
